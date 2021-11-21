@@ -4784,7 +4784,6 @@ function startlevel () {
         spawndrone()
         spawncombat()
     } else if (level == 3) {
-        story.printCharacterText("System online: Wall-Climbing available", "Armour")
         tiles.setTilemap(tilemap`level4`)
     } else if (level == 4) {
         tiles.setTilemap(tilemap`level5`)
