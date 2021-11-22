@@ -28,30 +28,24 @@ function spawnmboss3 () {
 scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile6`, function (sprite, location) {
     controller.moveSprite(player1, 0, 0)
     story.startCutscene(function () {
-        Achievements.showAchievement(
-        "SECRET EASTER EGG",
-        "",
-        1,
-        img`
+        Notification.notify("oops", 50, img`
             . . . . . . . . . . . . . . . . 
             . . . . . . . . . . . . . . . . 
             . . . . . 5 5 5 5 5 5 . . . . . 
-            . . . . 5 9 5 9 5 9 5 9 . . . . 
-            . . . 5 9 5 9 5 9 5 9 5 9 . . . 
+            . . . . 6 9 6 9 6 9 6 9 . . . . 
+            . . . 6 9 6 9 6 9 6 9 6 9 . . . 
             . . . 5 5 5 5 5 5 5 5 5 5 . . . 
             . . . 3 3 3 3 3 3 3 3 3 3 . . . 
             . . 5 5 5 5 5 5 5 5 5 5 5 5 . . 
-            . . 5 7 5 7 5 7 5 7 5 7 5 7 . . 
-            . . 7 5 7 5 7 5 7 5 7 5 7 5 . . 
+            . . 4 7 4 7 4 7 4 7 4 7 4 7 . . 
+            . . 7 4 7 4 7 4 7 4 7 4 7 4 . . 
             . . 5 5 5 5 5 5 5 5 5 5 5 5 . . 
             . . 9 9 9 9 9 9 9 9 9 9 9 9 . . 
             . . 5 5 5 5 5 5 5 5 5 5 5 5 . . 
-            . . . 3 5 3 5 3 5 3 5 3 5 . . . 
-            . . . . 3 5 3 5 3 5 3 5 . . . . 
+            . . . 3 a 3 a 3 a 3 a 3 a . . . 
+            . . . . 3 a 3 a 3 a 3 a . . . . 
             . . . . . 5 5 5 5 5 5 . . . . . 
-            `
-        )
-        story.printCharacterText("Somehow you reached this area. Unfortunately, you can't get back up. So have fun restarting the level!", "B i n k u s")
+            `)
         playerhealth.value = 0
     })
     tiles.setTileAt(location, assets.tile`transparency16`)
@@ -1854,6 +1848,7 @@ controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
 scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile7`, function (sprite, location) {
     level += 1
     startlevel()
+    spawncombat()
 })
 function rocket_bar () {
     mag = 5
@@ -4773,16 +4768,10 @@ function spawngooper () {
 function startlevel () {
     if (level == 0) {
         tiles.setTilemap(tilemap`level1`)
-        spawndrone()
-        spawncombat()
     } else if (level == 1) {
         tiles.setTilemap(tilemap`level2`)
-        spawndrone()
-        spawncombat()
     } else if (level == 2) {
         tiles.setTilemap(tilemap`level2`)
-        spawndrone()
-        spawncombat()
     } else if (level == 3) {
         tiles.setTilemap(tilemap`level4`)
     } else if (level == 4) {
@@ -4797,7 +4786,10 @@ function startlevel () {
     for (let value of tiles.getTilesByType(tiles.util.door0)) {
         tiles.setTileAt(value, assets.tile`myTile7`)
     }
-    for (let value of sprites.allOfKind(SpriteKind.Enemy)) {
+    for (let value of sprites.allOfKind(SpriteKind.combatform)) {
+        value.destroy()
+    }
+    for (let value of sprites.allOfKind(SpriteKind.Drone)) {
         value.destroy()
     }
 }
@@ -6267,6 +6259,12 @@ sprites.onOverlap(SpriteKind.Drone, SpriteKind.Player, function (sprite, otherSp
     }
     scene.cameraShake(2, 500)
 })
+scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile11`, function (sprite, location) {
+    level += -1
+    startlevel()
+    spawncombat()
+    tiles.placeOnRandomTile(player1, assets.tile`myTile13`)
+})
 let statusbar2: StatusBarSprite = null
 let airbourne: Sprite = null
 let turret: Sprite = null
@@ -6533,12 +6531,13 @@ scene.setBackgroundImage(img`
     ................................................................................................................................................................
     `)
 multilights.toggleLighting(false)
-level = 0
+level = 1
 spawnplayer1()
 shield2()
 ammo_bar()
 rocket_bar()
 startlevel()
+spawncombat()
 game.onUpdate(function () {
     if ((player1.isHittingTile(CollisionDirection.Left) || player1.isHittingTile(CollisionDirection.Right)) && player1.vy >= 0) {
         player1.vy = 0
