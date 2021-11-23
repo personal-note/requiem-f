@@ -815,7 +815,7 @@ statusbars.onStatusReached(StatusBarKind.Health, statusbars.StatusComparison.LTE
     if (player1.vy == 0 && controller.A.isPressed()) {
         player1.vy = -150
     }
-    controller.moveSprite(player1, 60, 0)
+    controller.moveSprite(player1, 80, 0)
 })
 function spawncombat () {
     for (let value of tiles.getTilesByType(assets.tile`myTile4`)) {
@@ -1865,7 +1865,7 @@ statusbars.onStatusReached(StatusBarKind.Health, statusbars.StatusComparison.LTE
     if (player1.vy == 0 && controller.A.isPressed()) {
         player1.vy = -180
     }
-    controller.moveSprite(player1, 90, 0)
+    controller.moveSprite(player1, 100, 0)
 })
 function spawnbolt () {
 	
@@ -4859,12 +4859,13 @@ controller.menu.onEvent(ControllerButtonEvent.Pressed, function () {
         controller.moveSprite(player1, 120, 0)
         color.clearFadeEffect()
     } else {
+        controller.moveSprite(player1, 0, 0)
         blockMenu.setColors(15, 1)
         blockMenu.showMenu([
         "Sprint",
         "Melee",
         "Wall-Jump"
-        ], MenuStyle.List, MenuLocation.Center)
+        ], MenuStyle.List, MenuLocation.BottomHalf)
         blockMenu.setControlsEnabled(true)
         color.Darken.startScreenEffect()
     }
@@ -6311,6 +6312,17 @@ sprites.onOverlap(SpriteKind.Drone, SpriteKind.Player, function (sprite, otherSp
         armour.value += -2
     }
     scene.cameraShake(2, 500)
+})
+blockMenu.onMenuOptionSelected(function (option, index) {
+    if (index == 0) {
+        game.splash("Press W then S quickly")
+    } else if (index == 1) {
+    	
+    } else if (index == 2) {
+        game.splash("Jump onto a vertical surface.")
+    }
+    blockMenu.closeMenu()
+    blockMenu.setControlsEnabled(false)
 })
 scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile11`, function (sprite, location) {
     level += -1
