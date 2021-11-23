@@ -1871,13 +1871,31 @@ function spawnbolt () {
 	
 }
 sprites.onOverlap(SpriteKind.combatform, SpriteKind.Player, function (sprite, otherSprite) {
+    controller.moveSprite(otherSprite, 0, 0)
     if (character.matchesRule(otherSprite, character.rule(Predicate.FacingLeft))) {
-        otherSprite.y += -10
-        otherSprite.x += 40
-    } else {
-        otherSprite.y += -10
-        otherSprite.x += -40
+        otherSprite.setVelocity(200, -20)
+        timer.after(400, function () {
+            otherSprite.setVelocity(0, 0)
+        })
+    } else if (character.matchesRule(otherSprite, character.rule(Predicate.FacingRight))) {
+        otherSprite.setVelocity(-200, -20)
+        timer.after(400, function () {
+            otherSprite.setVelocity(0, 0)
+        })
+    } else if (character.matchesRule(otherSprite, character.rule(Predicate.MovingRight))) {
+        otherSprite.setVelocity(-200, -20)
+        timer.after(400, function () {
+            otherSprite.setVelocity(0, 0)
+        })
+    } else if (character.matchesRule(otherSprite, character.rule(Predicate.MovingLeft))) {
+        otherSprite.setVelocity(200, -20)
+        timer.after(400, function () {
+            otherSprite.setVelocity(0, 0)
+        })
     }
+    timer.after(200, function () {
+        controller.moveSprite(otherSprite, 120, 0)
+    })
     if (character.matchesRule(sprite, character.rule(Predicate.FacingRight))) {
         animation.runImageAnimation(
         sprite,
@@ -6245,13 +6263,31 @@ function spawndrone () {
     }
 }
 sprites.onOverlap(SpriteKind.Drone, SpriteKind.Player, function (sprite, otherSprite) {
+    controller.moveSprite(otherSprite, 0, 0)
     if (character.matchesRule(otherSprite, character.rule(Predicate.FacingLeft))) {
-        otherSprite.y += -10
-        otherSprite.x += 40
-    } else {
-        otherSprite.y += -10
-        otherSprite.x += -40
+        otherSprite.setVelocity(200, -20)
+        timer.after(400, function () {
+            otherSprite.setVelocity(0, 0)
+        })
+    } else if (character.matchesRule(otherSprite, character.rule(Predicate.FacingRight))) {
+        otherSprite.setVelocity(-200, -20)
+        timer.after(400, function () {
+            otherSprite.setVelocity(0, 0)
+        })
+    } else if (character.matchesRule(otherSprite, character.rule(Predicate.MovingRight))) {
+        otherSprite.setVelocity(-200, -20)
+        timer.after(400, function () {
+            otherSprite.setVelocity(0, 0)
+        })
+    } else if (character.matchesRule(otherSprite, character.rule(Predicate.MovingLeft))) {
+        otherSprite.setVelocity(200, -20)
+        timer.after(400, function () {
+            otherSprite.setVelocity(0, 0)
+        })
     }
+    timer.after(200, function () {
+        controller.moveSprite(otherSprite, 120, 0)
+    })
     if (armour.value == 0) {
         playerhealth.value += -5
     } else {
@@ -6531,7 +6567,7 @@ scene.setBackgroundImage(img`
     ................................................................................................................................................................
     `)
 multilights.toggleLighting(false)
-level = 1
+level = 0
 spawnplayer1()
 shield2()
 ammo_bar()
