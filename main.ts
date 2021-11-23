@@ -4852,6 +4852,23 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.Player, function (sprite, otherS
         tiles.setTileAt(value, assets.tile`transparency16`)
     }
 })
+controller.menu.onEvent(ControllerButtonEvent.Pressed, function () {
+    if (blockMenu.isMenuOpen()) {
+        blockMenu.closeMenu()
+        blockMenu.setControlsEnabled(false)
+        controller.moveSprite(player1, 120, 0)
+        color.clearFadeEffect()
+    } else {
+        blockMenu.setColors(15, 1)
+        blockMenu.showMenu([
+        "Sprint",
+        "Melee",
+        "Wall-Jump"
+        ], MenuStyle.List, MenuLocation.Center)
+        blockMenu.setControlsEnabled(true)
+        color.Darken.startScreenEffect()
+    }
+})
 function spawnmboss1 () {
 	
 }
