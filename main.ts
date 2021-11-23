@@ -2405,27 +2405,39 @@ sprites.onOverlap(SpriteKind.bullet, SpriteKind.combatform, function (sprite, ot
 statusbars.onZero(StatusBarKind.Health, function (status) {
     story.startCutscene(function () {
         kill_all()
+        info.changeScoreBy(-30)
         tiles.setTilemap(tilemap`level6`)
         story.printCharacterText("YOU DIED")
         story.showPlayerChoices("RESTART LEVEL", "GAME OVER")
         if (story.checkLastAnswer("RESTART LEVEL") && level == 0) {
             level = 0
             bringbackall()
+            spawncombat()
+            spawndrone()
         }
         if (story.checkLastAnswer("RESTART LEVEL") && level == 1) {
             level = 1
             bringbackall()
+            spawncombat()
+            spawndrone()
         }
         if (story.checkLastAnswer("RESTART LEVEL") && level == 2) {
             level = 2
             bringbackall()
+            spawncombat()
+            spawndrone()
         }
         if (story.checkLastAnswer("RESTART LEVEL") && level == 3) {
             level = 3
+            bringbackall()
+            spawncombat()
+            spawndrone()
         }
         if (story.checkLastAnswer("RESTART LEVEL") && level == 4) {
             level = 4
             bringbackall()
+            spawncombat()
+            spawndrone()
         }
         if (story.checkLastAnswer("GAME OVER")) {
             game.over(false)
@@ -6317,12 +6329,14 @@ blockMenu.onMenuOptionSelected(function (option, index) {
     if (index == 0) {
         game.splash("Press W then S quickly")
     } else if (index == 1) {
-    	
+        game.splash("Press W and Enter at the same time")
     } else if (index == 2) {
         game.splash("Jump onto a vertical surface.")
     }
     blockMenu.closeMenu()
     blockMenu.setControlsEnabled(false)
+    controller.moveSprite(player1, 120, 0)
+    color.clearFadeEffect()
 })
 scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile11`, function (sprite, location) {
     level += -1
